@@ -12,13 +12,12 @@ import spray.json.DefaultJsonProtocol._
 import spray.json.RootJsonFormat
 
 import scala.concurrent.ExecutionContextExecutor
-import scala.io.StdIn
 
 /**
   * @author kasonchan
   * @since Sep-2017
   */
-object RPM {
+object Server {
 
   implicit val system: ActorSystem = ActorSystem("system")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
@@ -39,12 +38,6 @@ object RPM {
     println("Hello World!")
     println("This is my first rpm deployed to a server!")
     println(s"Server online at http://$host:$port/")
-
-    StdIn.readLine() // let it run until user presses return
-
-    bindingFuture
-      .flatMap(_.unbind()) // trigger unbinding from the port
-      .onComplete(_ => system.terminate()) // and shutdown when done
   }
 
   implicit val messageFormat: RootJsonFormat[Message] = jsonFormat2(Message)
